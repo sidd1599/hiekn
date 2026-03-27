@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>For Aditi 😊</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
+<style>
+*{margin:0;padding:0;box-sizing:border-box;font-family:'Poppins',sans-serif;}
+
+body{
+  min-height:100vh;
+  display:flex;
+  justify-content:center;
+  align-items:center;
+  background:linear-gradient(135deg,#a1c4fd,#fbc2eb);
+  padding:15px;
+}
+
+.container{
+  text-align:center;
+  background:white;
+  padding:25px;
+  border-radius:20px;
+  box-shadow:0 15px 40px rgba(0,0,0,0.15);
+  max-width:420px;
+  width:100%;
+}
+
+h1{color:#6c63ff;margin-bottom:10px;font-size:24px;}
+
+p{color:#555;margin-bottom:18px;font-size:14px;}
+
+button{
+  padding:12px 16px;
+  border:none;
+  border-radius:30px;
+  margin:6px;
+  font-size:14px;
+  cursor:pointer;
+  transition:0.3s;
+}
+
+#smileBtn{background:#6c63ff;color:white;}
+#notYetBtn{background:#eee;}
+#jokeBtn{background:#ffb347;color:white;}
+
+button:hover{transform:scale(1.05);} 
+
+.hidden{display:none;}
+
+.message{
+  margin-top:12px;
+  font-weight:600;
+  color:#6c63ff;
+  line-height:1.5;
+  font-size:14px;
+}
+
+.big-smile{font-size:40px;margin-top:8px;}
+
+.emoji{
+  position:fixed;
+  font-size:20px;
+  animation:float 4s linear infinite;
+}
+
+@keyframes float{
+  0%{transform:translateY(0);opacity:1;}
+  100%{transform:translateY(-500px);opacity:0;}
+}
+
+.game{margin-top:15px;}
+
+#gameArea{
+  position:relative;
+  height:100px;
+  margin-top:8px;
+  background:#f5f7ff;
+  border-radius:15px;
+  overflow:hidden;
+}
+
+#target{
+  position:absolute;
+  font-size:26px;
+  cursor:pointer;
+  user-select:none;
+}
+
+.score{
+  margin-top:6px;
+  color:#6c63ff;
+  font-weight:600;
+}
+
+@media (max-width:480px){
+  h1{font-size:22px;}
+  button{font-size:13px;padding:10px 14px;}
+}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <h1>Hey Aditi 😊</h1>
+  <p>I just wanted to see you smile today... that's it 💛</p>
+  
+  <button id="smileBtn">Okay I'm Smiling 😄</button>
+  <button id="notYetBtn">Not Yet 😶</button>
+  <button id="jokeBtn">Tell me a joke 😂</button>
+  
+  <div class="message hidden" id="message">
+    There it is... your smile is my favorite thing ✨<br>
+    You make everything better just by being you 💫
+    <div class="big-smile">😊</div>
+  </div>
+
+  <div class="message hidden" id="joke">
+    Why did the bestie bring a ladder? 🤔<br>
+    Because she wanted to reach your level of amazing 😎✨
+  </div>
+
+  <div class="game">
+    <p>Mini Game: Catch the smile 😄</p>
+    <div id="gameArea">
+      <div id="target">😊</div>
+    </div>
+    <div class="score">Score: <span id="score">0</span></div>
+  </div>
+</div>
+
+<script>
+const smileBtn=document.getElementById("smileBtn");
+const notYetBtn=document.getElementById("notYetBtn");
+const jokeBtn=document.getElementById("jokeBtn");
+const message=document.getElementById("message");
+const joke=document.getElementById("joke");
+const target=document.getElementById("target");
+const scoreEl=document.getElementById("score");
+let score=0;
+
+function moveButton(){
+  const x=Math.random()*40-20;
+  const y=Math.random()*40-20;
+  notYetBtn.style.transform=`translate(${x}px,${y}px)`;
+}
+
+notYetBtn.addEventListener("mouseover",moveButton);
+notYetBtn.addEventListener("touchstart",moveButton);
+
+smileBtn.addEventListener("click",()=>{
+  message.classList.remove("hidden");
+  createEmojis();
+});
+
+jokeBtn.addEventListener("click",()=>{
+  joke.classList.toggle("hidden");
+});
+
+function createEmojis(){
+  const emojis=["😊","✨","💛","🌸","😄","🌈"];
+  for(let i=0;i<20;i++){
+    const emoji=document.createElement("div");
+    emoji.classList.add("emoji");
+    emoji.innerHTML=emojis[Math.floor(Math.random()*emojis.length)];
+    emoji.style.left=Math.random()*100+"vw";
+    emoji.style.bottom="0px";
+    emoji.style.animationDuration=(Math.random()*2+2)+"s";
+    document.body.appendChild(emoji);
+    setTimeout(()=>emoji.remove(),4000);
+  }
+}
+
+function moveTarget(){
+  const area=document.getElementById("gameArea");
+  const x=Math.random()*(area.clientWidth-30);
+  const y=Math.random()*(area.clientHeight-30);
+  target.style.left=x+"px";
+  target.style.top=y+"px";
+}
+
+target.addEventListener("click",()=>{
+  score++;
+  scoreEl.textContent=score;
+  moveTarget();
+});
+
+target.addEventListener("touchstart",()=>{
+  vibrate(20);
+  score++;
+  scoreEl.textContent=score;
+  moveTarget();
+});
+
+setInterval(moveTarget,1400);
+</script>
+
+</body>
+</html>
